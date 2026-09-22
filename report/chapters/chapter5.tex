@@ -1,0 +1,462 @@
+% ============================================================
+% CHAPTER 5: IMPLEMENTATION
+% ============================================================
+\chapter{Implementation}
+
+This chapter provides a detailed account of the implementation of the SafeGuard system. It covers the technologies and tools employed, hardware and software requirements, project module implementations, key algorithms and workflows, code structure, and specific implementation details for each functional module.
+
+\section{Technologies Used}
+
+The SafeGuard system employs a modern technology stack chosen for their maturity, community support, performance characteristics, and suitability for the project's requirements.
+
+\subsection{Backend Technologies}
+
+\begin{table}[H]
+  \centering
+  \caption{Backend Technology Stack}
+  \label{tab:tech-backend}
+  \begin{tabularx}{\textwidth}{@{}l l X@{}}
+    \toprule
+    \textbf{Technology} & \textbf{Version} & \textbf{Purpose} \\
+    \midrule
+    Python & 3.9+ & Primary programming language for backend development \\
+    FastAPI & $\geq$0.115.0 & High-performance asynchronous web framework for RESTful API development \\
+    Uvicorn & $\geq$0.32.0 & ASGI server for serving the FastAPI application \\
+    SQLAlchemy & $\geq$2.0.36 & Object-Relational Mapping (ORM) library for database interaction \\
+    PyMySQL & $\geq$1.1.0 & Pure-Python MySQL database driver \\
+    Pydantic & $\geq$2.10.0 & Data validation and settings management using Python type annotations \\
+    bcrypt & $\geq$4.2.0 & Password hashing library with salt generation \\
+    python-jose & $\geq$3.3.0 & JSON Object Signing and Encryption (JOSE) library for JWT handling \\
+    python-dotenv & $\geq$1.0.0 & Environment variable management from .env files \\
+    aiofiles & $\geq$24.1.0 & Asynchronous file operations for profile picture uploads \\
+    python-multipart & $\geq$0.0.12 & Multipart form data parsing for file uploads \\
+    cryptography & $\geq$44.0.0 & Cryptographic primitives for secure operations \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Frontend Technologies}
+
+\begin{table}[H]
+  \centering
+  \caption{Frontend Technology Stack}
+  \label{tab:tech-frontend}
+  \begin{tabularx}{\textwidth}{@{}l l X@{}}
+    \toprule
+    \textbf{Technology} & \textbf{Version} & \textbf{Purpose} \\
+    \midrule
+    JavaScript (ES6+) & ES2022 & Primary programming language for frontend development \\
+    React.js & 18.2.0 & Component-based UI library for building interactive interfaces \\
+    React Router DOM & 6.21.1 & Declarative routing for single-page application navigation \\
+    Material UI (MUI) & 5.15.1 & Comprehensive React component library implementing Material Design \\
+    Emotion & $\geq$11.11.1 & CSS-in-JS styling library used by MUI \\
+    Axios & 1.6.2 & Promise-based HTTP client for API communication \\
+    react-hot-toast & 2.4.1 & Lightweight toast notification library \\
+    Recharts & 2.10.3 & Composable charting library for dashboard visualizations \\
+    Inter Font & 300--800 & Modern sans-serif typeface from Google Fonts \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Database}
+
+\begin{table}[H]
+  \centering
+  \caption{Database Technology}
+  \label{tab:tech-database}
+  \begin{tabularx}{\textwidth}{@{}l X@{}}
+    \toprule
+    \textbf{Technology} & \textbf{Purpose} \\
+    \midrule
+    MySQL 8.0 & Relational database management system for persistent data storage \\
+    SQLAlchemy ORM & Database abstraction layer providing Python-native data access \\
+    PyMySQL & Database connectivity driver for Python-MySQL communication \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Software Requirements}
+
+The following software is required to set up and run the SafeGuard system:
+
+\begin{table}[H]
+  \centering
+  \caption{Software Requirements}
+  \label{tab:software-req}
+  \begin{tabularx}{\textwidth}{@{}l l X@{}}
+    \toprule
+    \textbf{Software} & \textbf{Version} & \textbf{Purpose} \\
+    \midrule
+    Python & 3.9 or higher & Backend runtime environment \\
+    Node.js & 18.0 or higher & Frontend build and development server \\
+    npm & 9.0 or higher & Frontend package management \\
+    MySQL Server & 8.0 or higher & Database server \\
+    Modern Web Browser & Latest & Application access (Chrome, Firefox, Safari, Edge) \\
+    Code Editor & Latest & Development environment (VS Code recommended) \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Hardware Requirements}
+
+\begin{table}[H]
+  \centering
+  \caption{Hardware Requirements for Development}
+  \label{tab:hardware-req}
+  \begin{tabularx}{\textwidth}{@{}l X@{}}
+    \toprule
+    \textbf{Component} & \textbf{Specification} \\
+    \midrule
+    Processor & Intel Core i5 or equivalent (minimum), Intel Core i7 or higher (recommended) \\
+    Memory (RAM) & 8 GB minimum, 16 GB recommended \\
+    Storage & 256 GB SSD minimum (for development tools and databases) \\
+    Internet & Broadband connection for package installation and API testing \\
+    Display & 1920 $\times$ 1080 resolution minimum for development \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Project Modules}
+
+The SafeGuard system is organized into the following implementation modules, each representing a cohesive unit of functionality.
+
+\subsection{Module 1: Authentication Module}
+
+\textbf{Files:} \texttt{app/api/auth.py}, \texttt{app/auth/jwt.py}, \texttt{app/auth/dependencies.py}, \texttt{frontend/src/context/AuthContext.jsx}
+
+The authentication module implements the complete user identity lifecycle. The backend exposes two endpoints: \texttt{POST /api/register} for new user creation and \texttt{POST /api/login} for existing user authentication.
+
+The registration process validates input using Pydantic schemas, enforces email uniqueness, hashes passwords with bcrypt (12 rounds of salt generation), creates the user record, and issues a JWT token. The login process performs email lookup, bcrypt hash verification, activity logging, and JWT issuance.
+
+The frontend manages authentication state through React Context (\texttt{AuthContext}), which stores the access token and user object in \texttt{localStorage}. Axios interceptors automatically attach the \texttt{Authorization: Bearer} header to outgoing requests and redirect to the login page upon receiving 401 responses.
+
+\subsection{Module 2: Contact Management Module}
+
+\textbf{Files:} \texttt{app/api/contacts.py}, \texttt{app/models/contact.py}, \texttt{app/schemas/contact.py}, \texttt{frontend/src/pages/Contacts.jsx}
+
+The contact management module provides full CRUD operations for emergency contacts. The backend implements search using SQLAlchemy's \texttt{ilike()} operator for case-insensitive pattern matching across multiple columns, combined with OR conditions. Priority filtering is implemented as an optional query parameter that adds a WHERE clause when specified.
+
+The frontend presents contacts in a responsive card-based grid using MUI's \texttt{Card}, \texttt{Avatar}, and \texttt{Chip} components. Add and edit operations use MUI \texttt{Dialog} components with form validation. Delete operations include a confirmation dialog to prevent accidental removal.
+
+\subsection{Module 3: SOS Alert Module}
+
+\textbf{Files:} \texttt{app/api/sos.py}, \texttt{app/models/sos.py}, \texttt{app/schemas/sos.py}, \texttt{frontend/src/components/SOSButton.jsx}, \texttt{frontend/src/pages/SOSAlert.jsx}
+
+The SOS alert module is the system's primary safety feature. The \texttt{SOSButton} component implements a pulsing animation button that, when pressed, displays a confirmation dialog with a customizable message. Upon confirmation, it invokes \texttt{navigator.geolocation.getCurrentPosition()} with a 5-second timeout and high accuracy option.
+
+The geolocation callback sends a POST request to \texttt{/api/sos} with latitude, longitude, and optional address resolution. If geolocation fails, the alert is still created with a fallback message ``Location unavailable.'' The backend stores the alert and logs the activity, returning the created alert for immediate display in the history.
+
+\subsection{Module 4: Incident Reporting Module}
+
+\textbf{Files:} \texttt{app/api/incidents.py}, \texttt{app/models/incident.py}, \texttt{app/schemas/incident.py}, \texttt{frontend/src/pages/Incidents.jsx}
+
+The incident reporting module generates unique incident identifiers using Python's \texttt{uuid.uuid4()} function, extracting the first 8 characters, converting to uppercase, and prefixing with ``INC-.'' This produces human-readable identifiers such as \texttt{INC-A3F8B2C1}.
+
+The backend supports comprehensive filtering with optional query parameters for status, severity, incident type, and search text, all combined with AND logic. Pagination is implemented using SQL \texttt{offset()} and \texttt{limit()} with configurable page size and total record count returned for frontend pagination controls.
+
+\subsection{Module 5: Dashboard Module}
+
+\textbf{Files:} \texttt{app/api/dashboard.py}, \texttt{frontend/src/pages/Dashboard.jsx}, \texttt{frontend/src/components/DashboardCard.jsx}
+
+The dashboard module aggregates data from multiple tables through a single API endpoint (\texttt{GET /api/dashboard/stats}). The backend queries count operations on users, contacts, SOS alerts, and incident reports tables, along with recent records limited to 5 entries each. The frontend renders this data using summary cards, recent lists, and activity feeds.
+
+\subsection{Module 6: Profile Management Module}
+
+\textbf{Files:} \texttt{app/api/profile.py}, \texttt{frontend/src/pages/Profile.jsx}
+
+The profile module supports viewing and updating user information (name, email, phone), changing passwords with current password verification, and uploading profile pictures. File uploads are validated for MIME type (JPEG, PNG, WebP only) and size (5MB maximum) on the server side. Files are saved in \texttt{uploads/profiles/} with filenames following the pattern \texttt{\{user\_id\}\_\{uuid\_hex\}.\{ext\}}.
+
+\section{Key Algorithms and Workflows}
+
+\subsection{JWT Authentication Flow}
+
+The JWT (JSON Web Token) authentication flow follows these steps:
+
+\begin{enumerate}
+  \item User submits credentials to the login endpoint.
+  \item Backend validates credentials against the database record.
+  \item Backend verifies the bcrypt password hash.
+  \item Backend generates a JWT token containing \texttt{sub} (user ID) and \texttt{exp} (expiration time).
+  \item Token is signed using the HS256 algorithm with a secret key.
+  \item Frontend stores the token in \texttt{localStorage}.
+  \item Subsequent requests include the token in the \texttt{Authorization} header.
+  \item Backend validates the token on protected routes using the \texttt{HTTPBearer} dependency.
+\end{enumerate}
+
+The JWT token payload includes:
+\begin{itemize}
+  \item \texttt{sub}: User ID (integer)
+  \item \texttt{exp}: Expiration timestamp (current time + 1440 minutes)
+\end{itemize}
+
+\subsection{Geolocation Capture Algorithm}
+
+\begin{enumerate}
+  \item User presses the SOS button.
+  \item Confirmation dialog is displayed with customizable message.
+  \item On confirmation, \texttt{navigator.geolocation.getCurrentPosition()} is invoked.
+  \item Position options: \texttt{enableHighAccuracy: true}, \texttt{timeout: 5000ms}.
+  \item On success: extract \texttt{coords.latitude} and \texttt{coords.longitude}.
+  \item Send POST request to \texttt{/api/sos} with coordinates.
+  \item On failure: create alert with ``Location unavailable'' message.
+  \item Update alert history in the frontend.
+\end{enumerate}
+
+\subsection{Search Implementation}
+
+Multi-field search uses SQLAlchemy's \texttt{ilike()} operator combined with OR conditions:
+
+\begin{lstlisting}[language=Python, caption=Multi-field search implementation, label=lst:search]
+# Backend search implementation in contacts.py
+search_filter = None
+if search:
+    search_pattern = f"%{search}%"
+    search_filter = (
+        models.Contact.name.ilike(search_pattern) |
+        models.Contact.phone.ilike(search_pattern) |
+        models.Contact.relationship.ilike(search_pattern)
+    )
+    query = query.filter(search_filter)
+\end{lstlisting}
+
+\subsection{CSV Export Algorithm}
+
+The CSV export is implemented entirely on the client side:
+
+\begin{enumerate}
+  \item Fetch all records from the API (non-paginated endpoint).
+  \item Define CSV headers matching the data fields.
+  \item Map each record to a CSV row.
+  \item Join rows with newline characters.
+  \item Create a \texttt{Blob} with MIME type \texttt{text/csv}.
+  \item Generate an object URL using \texttt{URL.createObjectURL()}.
+  \item Create a temporary anchor element with \texttt{download} attribute.
+  \item Trigger a click event to initiate the download.
+  \item Revoke the object URL to free memory.
+\end{enumerate}
+
+\section{Code Structure}
+
+\subsection{Backend Directory Structure}
+
+\begin{lstlisting}[caption=Backend project structure, label=lst:backend-structure, language=bash, frame=none]
+backend/
+|-- .env                          # Environment configuration
+|-- requirements.txt              # Python dependencies
+|-- uploads/                      # User-uploaded files
+|   +-- profiles/                 # Profile pictures
++-- app/
+    |-- main.py                   # FastAPI application entry point
+    |-- database/
+    |   +-- config.py             # SQLAlchemy engine, session, Base
+    |-- models/                   # SQLAlchemy ORM models
+    |   |-- user.py               # User model
+    |   |-- contact.py            # EmergencyContact model
+    |   |-- incident.py           # IncidentReport model
+    |   |-- sos.py                # SOSAlert model
+    |   +-- activity.py           # ActivityLog model
+    |-- schemas/                  # Pydantic validation schemas
+    |   |-- user.py               # User schemas
+    |   |-- contact.py            # Contact schemas
+    |   |-- incident.py           # Incident schemas
+    |   +-- sos.py                # SOS schemas
+    |-- api/                      # API route handlers
+    |   |-- auth.py               # Authentication routes
+    |   |-- contacts.py           # Contact CRUD routes
+    |   |-- sos.py                # SOS alert routes
+    |   |-- incidents.py          # Incident CRUD routes
+    |   |-- profile.py            # Profile management routes
+    |   +-- dashboard.py          # Dashboard statistics route
+    |-- auth/                     # Authentication logic
+    |   |-- jwt.py                # JWT token generation/validation
+    |   +-- dependencies.py       # Auth dependencies for FastAPI
+    +-- utils/
+        +-- __init__.py           # Utility functions
+\end{lstlisting}
+
+\subsection{Frontend Directory Structure}
+
+\begin{lstlisting}[caption=Frontend project structure, label=lst:frontend-structure, language=bash, frame=none]
+frontend/
+|-- package.json                  # npm dependencies and scripts
++-- src/
+    |-- index.js                  # React application entry point
+    |-- App.jsx                   # Root component with routing
+    |-- context/
+    |   |-- AuthContext.jsx        # Authentication state management
+    |   +-- ThemeContext.jsx       # Dark/Light theme management
+    |-- services/
+    |   +-- api.js                # Axios HTTP client configuration
+    |-- layouts/
+    |   +-- MainLayout.jsx        # Sidebar + Navbar layout
+    |-- components/
+    |   |-- Navbar.jsx            # Top navigation bar
+    |   |-- Sidebar.jsx           # Side navigation drawer
+    |   |-- SOSButton.jsx         # Emergency SOS button
+    |   |-- DashboardCard.jsx     # Statistics card widget
+    |   |-- ProtectedRoute.jsx    # Authentication route guard
+    |   +-- Loading.jsx           # Loading spinner component
+    +-- pages/
+        |-- Login.jsx             # User login page
+        |-- Register.jsx          # User registration page
+        |-- Dashboard.jsx         # Main dashboard
+        |-- Contacts.jsx          # Emergency contacts page
+        |-- SOSAlert.jsx          # SOS alert system page
+        |-- Incidents.jsx         # Incident reporting page
+        |-- AlertHistory.jsx      # Combined history page
+        +-- Profile.jsx           # User profile settings page
+\end{lstlisting}
+
+\section{Implementation Details}
+
+\subsection{FastAPI Application Configuration}
+
+The FastAPI application is configured in \texttt{app/main.py} with CORS middleware, static file serving for uploaded content, and route inclusion from modular API files:
+
+\begin{lstlisting}[language=Python, caption=FastAPI application setup, label=lst:fastapi-setup]
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from app.database.config import engine, Base
+from app.api import auth, contacts, sos, incidents, profile, dashboard
+
+# Create all database tables
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(
+    title="Safety Alert & Smart Protection System",
+    version="1.0.0"
+)
+
+# CORS Configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Static files for uploads
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
+# Include API routes
+app.include_router(auth.router, prefix="/api")
+app.include_router(contacts.router, prefix="/api/contacts")
+app.include_router(sos.router, prefix="/api/sos")
+app.include_router(incidents.router, prefix="/api/incident")
+app.include_router(profile.router, prefix="/api/profile")
+app.include_router(dashboard.router, prefix="/api/dashboard")
+\end{lstlisting}
+
+\subsection{React Application Routing}
+
+The frontend routing is configured in \texttt{App.jsx} using React Router v6 with protected route wrappers:
+
+\begin{lstlisting}[language=JavaScript, caption=React routing configuration, label=lst:react-routing]
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import MainLayout from "./layouts/MainLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import Contacts from "./pages/Contacts";
+import SOSAlert from "./pages/SOSAlert";
+import Incidents from "./pages/Incidents";
+import AlertHistory from "./pages/AlertHistory";
+import Profile from "./pages/Profile";
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={
+              <ProtectedRoute><MainLayout /></ProtectedRoute>
+            }>
+              <Route index element={<Navigate to="/dashboard" />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="contacts" element={<Contacts />} />
+              <Route path="sos" element={<SOSAlert />} />
+              <Route path="incidents" element={<Incidents />} />
+              <Route path="history" element={<AlertHistory />} />
+              <Route path="profile" element={<Profile />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
+\end{lstlisting}
+
+\subsection{Axios Interceptor Configuration}
+
+The Axios instance is configured with request and response interceptors for automatic token attachment and error handling:
+
+\begin{lstlisting}[language=JavaScript, caption=Axios interceptor configuration, label=lst:axios-interceptor]
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:8000/api",
+});
+
+// Request interceptor - attach JWT token
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access_token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Response interceptor - handle 401 errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default api;
+\end{lstlisting}
+
+\subsection{Theme Configuration}
+
+The application supports dark and light themes using MUI's theming system with the Inter font family:
+
+\begin{lstlisting}[language=JavaScript, caption=MUI theme configuration, label=lst:theme-config]
+import { createTheme } from "@mui/material/styles";
+
+const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+    primary: { main: "#1976d2" },
+    background: { default: "#f5f5f5", paper: "#ffffff" },
+  },
+  typography: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", sans-serif',
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: { main: "#90caf9" },
+    background: { default: "#121212", paper: "#1e1e1e" },
+  },
+  typography: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", sans-serif',
+  },
+});
+\end{lstlisting}

@@ -1,0 +1,212 @@
+% ============================================================
+% APPENDIX
+% ============================================================
+\appendix
+
+\chapter{Acronyms and Abbreviations}
+
+\begin{table}[H]
+  \centering
+  \caption{List of Acronyms and Abbreviations}
+  \label{tab:acronyms}
+  \begin{tabularx}{\textwidth}{@{}l X@{}}
+    \toprule
+    \textbf{Acronym} & \textbf{Full Form} \\
+    \midrule
+    API & Application Programming Interface \\
+    ASGI & Asynchronous Server Gateway Interface \\
+    bcrypt & Blowfish Cipher (password hashing function) \\
+    CORS & Cross-Origin Resource Sharing \\
+    CRUD & Create, Read, Update, Delete \\
+    CSV & Comma-Separated Values \\
+    DB & Database \\
+    ER & Entity-Relationship \\
+    GPS & Global Positioning System \\
+    HTML & HyperText Markup Language \\
+    HTTP & HyperText Transfer Protocol \\
+    HTTPS & HyperText Transfer Protocol Secure \\
+    IETF & Internet Engineering Task Force \\
+    INC & Incident \\
+    JWT & JSON Web Token \\
+    MCA & Master of Computer Applications \\
+    MFA & Multi-Factor Authentication \\
+    MUI & Material UI (Component Library) \\
+    ORM & Object-Relational Mapping \\
+    PERS & Personal Emergency Response System \\
+    PWA & Progressive Web Application \\
+    REST & Representational State Transfer \\
+    RFC & Request for Comments \\
+    RDBMS & Relational Database Management System \\
+    SOS & Save Our Souls (Emergency Alert) \\
+    SQL & Structured Query Language \\
+    SQLAlchemy & SQL Toolkit and Object-Relational Mapper \\
+    TLS & Transport Layer Security \\
+    UML & Unified Modeling Language \\
+    USN & University Seat Number \\
+    UUID & Universally Unique Identifier \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\chapter{User Manual}
+
+\section{System Requirements}
+
+\begin{itemize}
+  \item A modern web browser (Chrome 120+, Firefox 121+, Safari 17+, or Edge 120+)
+  \item Active internet connection
+  \item Location services enabled (for SOS geolocation features)
+\end{itemize}
+
+\section{Getting Started}
+
+\subsection{Registration}
+\begin{enumerate}
+  \item Navigate to the SafeGuard application URL.
+  \item Click ``Register'' on the login page.
+  \item Fill in your first name, last name, email address, phone number, and password.
+  \item Confirm your password.
+  \item Click ``Register'' to create your account.
+  \item You will be redirected to the dashboard upon successful registration.
+\end{enumerate}
+
+\subsection{Login}
+\begin{enumerate}
+  \item Enter your email address and password on the login page.
+  \item Click ``Login.''
+  \item You will be redirected to the dashboard upon successful authentication.
+\end{enumerate}
+
+\section{Using the Features}
+
+\subsection{Managing Emergency Contacts}
+\begin{enumerate}
+  \item Navigate to ``Contacts'' from the sidebar.
+  \item Click ``Add Contact'' to create a new emergency contact.
+  \item Enter the contact's name, relationship, phone number, email (optional), and priority level.
+  \item Click ``Save'' to add the contact.
+  \item Use the search bar or priority filter to find specific contacts.
+  \item Click the edit icon to modify or the delete icon to remove a contact.
+\end{enumerate}
+
+\subsection{Triggering an SOS Alert}
+\begin{enumerate}
+  \item Navigate to ``SOS Alert'' from the sidebar or use the SOS button on the dashboard.
+  \item Press the red SOS button.
+  \item A confirmation dialog will appear. Optionally customize the message.
+  \item Click ``Send Alert'' to trigger the SOS.
+  \item The system will automatically capture your geolocation and create the alert.
+  \item View your alert history on the same page below the SOS button.
+\end{enumerate}
+
+\subsection{Reporting an Incident}
+\begin{enumerate}
+  \item Navigate to ``Incidents'' from the sidebar.
+  \item Click ``Report Incident.''
+  \item Select the incident type from the dropdown.
+  \item Enter a description, location, and severity level.
+  \item Optionally enter latitude/longitude coordinates or upload an image.
+  \item Click ``Submit Report'' to file the incident.
+  \item A unique incident ID (INC-XXXXXXXX) will be generated automatically.
+\end{enumerate}
+
+\subsection{Viewing History and Exporting Data}
+\begin{enumerate}
+  \item Navigate to ``History'' from the sidebar.
+  \item Switch between the ``SOS Alerts'' and ``Incidents'' tabs.
+  \item Use the search bar and status filters to find specific records.
+  \item Click ``Export CSV'' to download your data as a spreadsheet-compatible file.
+\end{enumerate}
+
+\subsection{Managing Your Profile}
+\begin{enumerate}
+  \item Navigate to ``Profile'' from the sidebar.
+  \item Update your name, email, or phone number.
+  \item Click ``Save Changes'' to update your profile.
+  \item Click ``Change Password'' and enter your current and new passwords.
+  \item Click the profile picture area to upload a new image (JPEG, PNG, or WebP, max 5MB).
+\end{enumerate}
+
+\chapter{Additional Screenshots}
+
+The following figures provide additional visual documentation of the SafeGuard application interface.
+
+\begin{figure}[H]
+  \centering
+  \fbox{\parbox{0.85\textwidth}{\centering\vspace{5cm}%
+    \textbf{[Additional Screenshot 1: Theme Toggle (Dark Mode)]}\\[0.3cm]
+    {\small Application interface with dark theme applied}\\[0.3cm]
+    \textbf{[Place dark-theme.png here]}%
+    \vspace{5cm}}}
+  \caption{Dark Theme Application View}
+  \label{fig:appendix-dark}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \fbox{\parbox{0.85\textwidth}{\centering\vspace{5cm}%
+    \textbf{[Additional Screenshot 2: Mobile Responsive View]}\\[0.3cm]
+    {\small Application interface on mobile device with collapsed sidebar}\\[0.3cm]
+    \textbf{[Place mobile-view.png here]}%
+    \vspace{5cm}}}
+  \caption{Mobile Responsive Application View}
+  \label{fig:appendix-mobile}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \fbox{\parbox{0.85\textwidth}{\centering\vspace{5cm}%
+    \textbf{[Additional Screenshot 3: Toast Notifications]}\\[0.3cm]
+    {\small Success and error toast notifications during various operations}\\[0.3cm]
+    \textbf{[Place toast-notifications.png here]}%
+    \vspace{5cm}}}
+  \caption{Toast Notification Examples}
+  \label{fig:appendix-toast}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \fbox{\parbox{0.85\textwidth}{\centering\vspace{5cm}%
+    \textbf{[Additional Screenshot 4: Form Validation Errors]}\\[0.3cm]
+    {\small Form validation error messages and inline validation}\\[0.3cm]
+    \textbf{[Place form-validation.png here]}%
+    \vspace{5cm}}}
+  \caption{Form Validation Error Examples}
+  \label{fig:appendix-validation}
+\end{figure}
+
+\chapter{API Endpoints Reference}
+
+\begin{table}[H]
+  \centering
+  \caption{Complete API Endpoints}
+  \label{tab:api-endpoints}
+  \begin{tabularx}{\textwidth}{@{}c l l l X@{}}
+    \toprule
+    \textbf{Method} & \textbf{Endpoint} & \textbf{Auth} & \textbf{Module} & \textbf{Description} \\
+    \midrule
+    GET & /api/health & No & System & Health check \\
+    POST & /api/register & No & Auth & Register new user \\
+    POST & /api/login & No & Auth & Authenticate user \\
+    GET & /api/contacts & Yes & Contacts & List contacts \\
+    POST & /api/contacts & Yes & Contacts & Create contact \\
+    GET & /api/contacts/\{id\} & Yes & Contacts & Get contact \\
+    PUT & /api/contacts/\{id\} & Yes & Contacts & Update contact \\
+    DELETE & /api/contacts/\{id\} & Yes & Contacts & Delete contact \\
+    POST & /api/sos & Yes & SOS & Create SOS alert \\
+    GET & /api/sos & Yes & SOS & List all alerts \\
+    GET & /api/sos/history & Yes & SOS & Paginated history \\
+    POST & /api/incident & Yes & Incident & Report incident \\
+    GET & /api/incident & Yes & Incident & Paginated incidents \\
+    GET & /api/incident/all & Yes & Incident & List all incidents \\
+    GET & /api/incident/\{id\} & Yes & Incident & Get incident \\
+    PUT & /api/incident/\{id\} & Yes & Incident & Update incident \\
+    DELETE & /api/incident/\{id\} & Yes & Incident & Delete incident \\
+    GET & /api/profile & Yes & Profile & Get profile \\
+    PUT & /api/profile & Yes & Profile & Update profile \\
+    PUT & /api/profile/password & Yes & Profile & Change password \\
+    POST & /api/profile/upload-picture & Yes & Profile & Upload picture \\
+    GET & /api/dashboard/stats & Yes & Dashboard & Dashboard stats \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
